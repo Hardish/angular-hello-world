@@ -1,0 +1,82 @@
+<!--
+  in angular we can iterate over a list of objects in our template using the syntax *ngFor
+  the idea is that we want to repeat the same markup for a collection of objects
+
+  -----------------------------------------------------
+  breakdown of the syntax
+  *ngFor synyax says we want to use NgFor Directive on this attribute,
+  
+  its like we are creating DOM element for every item in collection using for loop
+
+  let name of names meaning loop over each elements in the names and assign each one to the local variable called name.
+
+
+  the NgFor directive will render one li tag for each entry found on the names array and declare a local variable name to hold the current item being itreated.
+
+  the new variable will then be replaced inside the Hello {{ name }} snippet.
+
+  we could have written below one also
+
+  <li *ngFor="let foobar of names"> Hello {{ foobar }} </li>
+
+  but below one will throw an error bcoz we dont have foobar is not a property in the components
+
+  <li *ngFor="let name of foobar">Hello {{name}} </li>
+
+  ---------------------------------------------------------------
+
+  ngFor repeats the elements that the ngFor is called. That is, we put it on the li tag and not the ul tag. bcoz we want to repeat the list element (li) and not the list itself(ul)
+
+  NgFor is capitalization of the class that implements the logic
+  and ngFor is the "selector" for the attribute we want to use
+
+-->
+
+<!--
+<ul>
+  <li *ngFor="let name of names"> Hello {{ name }}</li>
+</ul>
+-->
+
+<!--
+ 
+  *Insted of rendering each name within the UserListComponent,
+  we ought to use UserItemComponent as a child component- this is, instead of rendering the text Hello and the name directly, we should let our UserItemComponent specify the template and functionality of each item in the list
+  *to do this we need to do 3 things
+      1. configure the UserListComponent to render to UserItemComponent (in the template)
+      2. configure the UserItemComponent to accept the name variable as a input 
+      3. Configure the UserListComponent template to to pass the name to the UserItemComponent
+
+-->
+
+<!--Step 1: Rendering the UserItemComponent
+   *our UserItemComponent specifies the selector 'app-user-item'
+  lets add that tag to this script for making UserItemComponet as child component
+-->
+
+<ul>
+  <li *ngFor="let individualUserName of names">
+    <app-user-item [name]="individualUserName"></app-user-item>
+  </li>
+</ul>
+
+<!--this will print 6 times hello Disha instead of names
+we need to pass data into the child component
+thankfully, angular provides a way to do this using *Input decorator at user-item-component.ts
+
+
+
+<app-user-item [name]="individualUserName"> is used to passing the input value to the UserItemComponent
+  
+in angular when we add new attribute in [] bracket like [foo] we are saying we want to pass a value to the input named foo on the component
+
+The [name] part designates the Input on the UserItemComponent. We are not passing literal string "individualUserName" instad we are passing the value of "individualUserName", which is on each pass,the value of an element of names.
+
+In short:
+1.Iterating over names
+2.creating a new UserItemComponent for each element in names
+3.Passing the value of thay name into the name Input property on UserItemComponent
+
+
+
+-->
